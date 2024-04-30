@@ -17,6 +17,6 @@ Random Notes:
 - FEXRootFSFetcher as the dedicated user to download the rootfs amd64, extract squashfs 
 - Use LinuxGSM with the dedicated user to prepare the environment (steamcmd and the steam app) - (some dependency errors due to the arm/amd emulation are fine)
 - tweak LinuxGSM configuration if required
-- start the server (~/pzserver start"
+- start the server: `~/pzserver start`
 - visit https://github.com/davidedg/projectzomboid-server-scripts
 - enjoy!
