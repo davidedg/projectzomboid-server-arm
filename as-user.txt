@@ -72,7 +72,6 @@ linuxgsm.sh                            100%[====================================
 pzserver@oci:~$ ./linuxgsm.sh pzserver
 Installed Project Zomboid server as pzserver
 
-./pzserver install
 
 pzserver@oci:~$ ./pzserver
 fetching GitHub core_trap.sh...OK
@@ -212,19 +211,8 @@ Warning! Missing dependencies: lib32gcc-s1 lib32stdc++6
 Warning! pzserver does not have sudo access. Manually install dependencies or run ./pzserver install as root.
  Run: 'sudo dpkg --add-architecture i386; sudo apt update; sudo apt install lib32gcc-s1 lib32stdc++6' as root to install missing dependencies.
 Failure! Missing dependencies required to run SteamCMD.
-pzserver@oci:~$ cat /etc/os-release
-PRETTY_NAME="Ubuntu 22.04.5 LTS"
-NAME="Ubuntu"
-VERSION_ID="22.04"
-VERSION="22.04.5 LTS (Jammy Jellyfish)"
-VERSION_CODENAME=jammy
-ID=ubuntu
-ID_LIKE=debian
-HOME_URL="https://www.ubuntu.com/"
-SUPPORT_URL="https://help.ubuntu.com/"
-BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
-PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
-UBUNTU_CODENAME=jammy
+
+
 
 
 # (FIX MISSING DEPENDENCIES - see fake_deps.md) and run again
