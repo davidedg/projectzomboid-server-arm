@@ -719,4 +719,86 @@ Install Complete!
 To start server type:
 ./pzserver start
 
-  
+
+pzserver@oci:~$ ./pzserver start
+fetching GitHub command_start.sh...OK
+[ .... ] Starting pzserver: fetching GitHub check_root.sh...OK
+fetching GitHub check_system_dir.sh...OK
+fetching GitHub check_executable.sh...OK
+fetching GitHub check_logs.sh...OK
+[ INFO ] Starting pzserver: Checking for log files: Creating log files
+installing log dir: /home/pzserver/log...OK
+installing LinuxGSM log dir: /home/pzserver/log/script...OK
+creating LinuxGSM log: /home/pzserver/log/script/pzserver-script.log...OK
+installing console log dir: /home/pzserver/log/console...OK
+creating console log: /home/pzserver/log/console/pzserver-console.log...OK
+creating symlink to game log dir: /home/pzserver/log/server -> /home/pzserver/Zomboid/Logs...OK
+creating symlink to steam log dir: /home/pzserver/log/steam -> /home/pzserver/.steam/steam/logs...OK
+fetching GitHub check_config.sh...OK
+[ WARN ] Starting pzserver: Default Admin password detected
+fetching GitHub check_status.sh...OK
+fetching GitHub fix_steamcmd.sh...OK
+[  OK  ] Starting pzserver: Applying steamclient.so sdk64 hardlink fix: Project Zomboid
+[  OK  ] Starting pzserver: Applying steamclient.so sdk32 link fix: Project Zomboid
+[  OK  ] Starting pzserver: Applying steamclient.so x86 fix: Project Zomboid
+fetching GitHub core_logs.sh...OK
+[  OK  ] Starting pzserver: LinuxGSM
+
+
+
+
+
+
+# Enter the console and assign a password
+###########################################################################
+
+
+pztest@oci:~$ ./pzserver console
+fetching GitHub command_console.sh...OK
+[ WARN ] Access console pzserver: Default Admin password detected
+
+Project Zomboid Access console
+=================================
+* Verbose output: yes
+* Interactive output: yes
+
+Information! Press "CTRL+b" then "d" to exit console.
+Warning! Do NOT press CTRL+c to exit.
+* https://docs.linuxgsm.com/commands/console
+
+Continue? [Y/n] Y
+[  OK  ] Access console pzserver: Accessing console
+
+
+
+# Exit the console using CTRL-B and then d
+###########################################################################
+
+
+[detached (from session pzserver)]
+[  OK  ] Access console pzserver: Closing console
+
+
+# RESTART the server a few times (usually 2) to avoid some JRE crashes
+###########################################################################
+
+pzserver@oci:~$ ./pzserver stop
+fetching GitHub command_stop.sh...OK
+[ WARN ] Stopping pzserver: Default Admin password detected
+[ ERROR ] Stopping pzserver: Graceful: sending "quit": FAIL
+[  OK  ] Stopping pzserver: LinuxGSM
+
+pzserver@oci:~$ ./pzserver start
+[ WARN ] Starting pzserver: Default Admin password detected
+[  OK  ] Starting pzserver: LinuxGSM
+
+
+
+# when ready, the last lines of log file should be:
+###########################################################################
+
+LOG  : General     , 1732832442622> 7,095,190> RCON: listening on port 27015
+LOG  : Network     , 1732832448024> 7,100,604> [28-11-24 22:20:48.012] > ZNet: SSteamSDK -> SZombienet: OnPolicyResponse
+LOG  : Network     , 1732832448056> 7,100,626> [28-11-24 22:20:48.056] > ZNet: OnPolicyResponse
+LOG  : Network     , 1732832448061> 7,100,629> [28-11-24 22:20:48.061] > ZNet: SZombienet -> SSteamSDK: BSecure
+LOG  : Network     , 1732832448064> 7,100,632> [28-11-24 22:20:48.064] > ZNet: Zomboid Server is VAC Secure
