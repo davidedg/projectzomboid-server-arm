@@ -5,7 +5,8 @@ OUTPUT EXAMPLE OF DEDICATED USER INSTALLATION
 ###########################################################################
 root@oci:~# sudo -i -u pzserver
 
-# Prepare the rootfs
+# Prepare the rootfs (output below is from Ubuntu 22.04, but steps are the 
+# same for 24.04)
 ###########################################################################
 pzserver@oci:~$ FEXRootFSFetcher
 RootFS not found. Do you want to try and download one?
