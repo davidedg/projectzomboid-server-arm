@@ -1,6 +1,9 @@
 OUTPUT EXAMPLE OF DEDICATED USER INSTALLATION
 ###########################################################################
 
+# FIX MISSING DEPENDENCIES - see fake_deps.md
+###########################################################################
+
 # Sudo as the dedicated user
 ###########################################################################
 root@oci:~# sudo -i -u pzserver
@@ -52,43 +55,52 @@ Ubuntu_22_04 set as default RootFS
 ###########################################################################
 
 pzserver@oci:~$ wget -O linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh
---2024-11-28 21:22:03--  https://linuxgsm.sh/
-Resolving linuxgsm.sh (linuxgsm.sh)... 172.67.135.1, 104.21.6.158, 2606:4700:3031::6815:69e, ...
-Connecting to linuxgsm.sh (linuxgsm.sh)|172.67.135.1|:443... connected.
+--2025-03-11 23:50:28--  https://linuxgsm.sh/
+Resolving linuxgsm.sh (linuxgsm.sh)... 104.21.6.158, 172.67.135.1, 2606:4700:3031::6815:69e, ...
+Connecting to linuxgsm.sh (linuxgsm.sh)|104.21.6.158|:443... connected.
 HTTP request sent, awaiting response... 301 Moved Permanently
 Location: https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh [following]
---2024-11-28 21:22:03--  https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.109.133, 185.199.110.133, 185.199.111.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+--2025-03-11 23:50:28--  https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.110.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 18430 (18K) [text/plain]
+Length: 20893 (20K) [text/plain]
 Saving to: ‘linuxgsm.sh’
 
-linuxgsm.sh                            100%[==========================================================================>]  18.00K  --.-KB/s    in 0s
+linuxgsm.sh                     100%[====================================================>]  20.40K  --.-KB/s    in 0s
 
-2024-11-28 21:22:03 (125 MB/s) - ‘linuxgsm.sh’ saved [18430/18430]
+2025-03-11 23:50:28 (121 MB/s) - ‘linuxgsm.sh’ saved [20893/20893]
 
 
 
 pzserver@oci:~$ ./linuxgsm.sh pzserver
-Installed Project Zomboid server as pzserver
+fetching GitHub [ serverlist.csv ] ... OK
+nstalled Project Zomboid server as pzserver
+
+
+
+./pzserver install
 
 
 pzserver@oci:~$ ./pzserver
-fetching GitHub core_trap.sh...OK
-fetching GitHub _default.cfg...OK
-copying _default.cfg...OK
-fetching GitHub check_ip.sh...OK
-fetching GitHub info_game.sh...OK
-fetching GitHub common.cfg...OK
-fetching GitHub secrets-common.cfg...OK
-fetching GitHub pzserver.cfg...OK
-fetching GitHub secrets-pzserver.cfg...OK
-fetching GitHub linuxgsm.sh...OK
-fetching GitHub core_getopt.sh...OK
+fetching GitHub [ core_modules.sh ] ... OK
+etching GitHub [ core_legacy.sh ] ... OK
+etching GitHub [ core_messages.sh ] ... OK
+etching GitHub [ core_dl.sh ] ... OK
+etching GitHub [ core_trap.sh ] ... OK
+fetching GitHub [ _default.cfg ] ... OK
+copying _default.cfg ... OK
+fetching GitHub [ check_ip.sh ] ... OK
+fetching GitHub [ info_game.sh ] ... OK
+fetching GitHub [ common.cfg ] ... OK
+fetching GitHub [ secrets-common.cfg ] ... OK
+fetching GitHub [ pzserver.cfg ] ... OK
+fetching GitHub [ secrets-pzserver.cfg ] ... OK
+fetching GitHub [ linuxgsm.sh ] ... OK
+fetching GitHub [ core_getopt.sh ] ... OK
 Usage: ./pzserver [option]
 
-LinuxGSM - Project Zomboid - Version v24.3.2
+LinuxGSM - Project Zomboid - Version v25.1.5
 https://linuxgsm.com/pzserver
 
 Commands
@@ -113,13 +125,23 @@ install       i    | Install the server.
 auto-install  ai   | Install the server without prompts.
 developer     dev  | Enable developer Mode.
 sponsor       s    | Sponsorship options.
-fetching GitHub core_exit.sh...OK
+fetching GitHub [ core_exit.sh ] ... OK
+
+
+
+# On newer versions of LGSM, modify system requirements arch check
+###########################################################################
+
+hostarch=$(uname -m)
+sed -i -e "s/x86_64/$hostarch/" ~/lgsm/modules/check_system_requirements.sh
+
 
 
 # Run LGSM pzserver script to install the server
 ###########################################################################
 
 pzserver@oci:~$ ./pzserver install
+fetching GitHub [ install_header.sh ] ... OK
 
                                 mdMMMMbm
                               mMMMMMMMMMMm
@@ -156,30 +178,35 @@ LinuxGSM 888 888  888  Y8888Y  888  888   Y2012P88   Y8888P   888       888
 =================================
 LinuxGSM_
 by Daniel Gibbs
-Version: v24.3.2
+Version: v25.1.5
 Game: Project Zomboid
 Website: https://linuxgsm.com
 Contributors: https://linuxgsm.com/contrib
 Sponsor: https://linuxgsm.com/sponsor
 =================================
+fetching GitHub [ install_server_dir.sh ] ... OK
 
 Server Directory
 =================================
-Warning! A server is already installed here.
-/home/pzserver
+creating serverfiles directory [ /home/pzserver/serverfiles ] ... OK
+
 Continue? [Y/n] Y
+fetching GitHub [ install_logs.sh ] ... OK
 
 Creating Log Directories
 =================================
-installing log dir: /home/pzserver/log...OK
-installing LinuxGSM log dir: /home/pzserver/log/script...OK
-creating LinuxGSM log: /home/pzserver/log/script/pzserver-script.log...OK
-installing console log dir: /home/pzserver/log/console...OK
-creating console log: /home/pzserver/log/console/pzserver-console.log...OK
-creating symlink to game log dir: /home/pzserver/log/server -> /home/pzserver/Zomboid/Logs...OK
+creating log directory [ /home/pzserver/log ] ... OK
+creating script log directory [ /home/pzserver/log/script ] ... OK
+creating script log [ /home/pzserver/log/script/pzserver-script.log ] ... OK
+creating console log directory [ /home/pzserver/log/console ] ... OK
+creating console log [ /home/pzserver/log/console/pzserver-console.log ] ... OK
+creating game log directory [ /home/pzserver/Zomboid/Logs ] ... OK
+creating symlink to game log directory [ /home/pzserver/log/server -> /home/pzserver/Zomboid/Logs ] ... OK
+fetching GitHub [ check_deps.sh ] ... OK
 
 Checking Project Zomboid Dependencies
 =================================
+fetching GitHub [ ubuntu-24.04.csv ] ... OK
 bc
 binutils
 bsdmainutils
@@ -195,8 +222,8 @@ jq
 lib32gcc-s1
 lib32stdc++6
 libsdl2-2.0-0:i386
-netcat
-openjdk version "11.0.25" 2024-10-15
+netcat-openbsd
+openjdk version "21.0.6" 2025-01-21
 pigz
 python3
 rng-tools5
@@ -208,166 +235,47 @@ util-linux
 uuid-runtime
 wget
 xz-utils
-Warning! Missing dependencies: lib32gcc-s1 lib32stdc++6
-Warning! pzserver does not have sudo access. Manually install dependencies or run ./pzserver install as root.
- Run: 'sudo dpkg --add-architecture i386; sudo apt update; sudo apt install lib32gcc-s1 lib32stdc++6' as root to install missing dependencies.
-Failure! Missing dependencies required to run SteamCMD.
-
-
-
-
-# (FIX MISSING DEPENDENCIES - see fake_deps.md) and run again
-###########################################################################
-
-pzserver@oci:~$ ./pzserver install
-
-                                mdMMMMbm
-                              mMMMMMMMMMMm
-                              mMMMMMMMMMMMMm
-                             mMMMMMMMMMMMMMMm
-                             hMMMV^VMMV^VMMMh
-                             MMMMM  MM  MMMMM
-                             hMMs   vv   sMMh
-                            hMMM:        :MMMh
-                          .hMMMh          hMMMh.
-                         -dMMMh     __     hMMMd-
-                        :mMMMs      ||      sMMMm:
-                       :MMMM+       || _     +NMMN:
-                      .mMMM+     ========     +MMMm.
-                      yMMMy   ##############   yMMMy
-                      mMMM:   ##############   :MMMm
-                      mMM   nn   nn    nn   nn   MMm
-                      o   nNNNNNNNn    nNNNNNNNn   o
-                         nNNNNNNNNNn  nNNNNNNNNNn
-                        nNNNNNNNNNNN  NNNNNNNNNNNn
-                         +NNNNNNNNN:  :NNNNNNNNN+
-                           nNNNNNNN /\ NNNNNNNn
-                             nnnnn  db  nnnnn
-
-888      d8b                             .d8888b.   .d8888b.  888b     d888
-888      Y8P                            d88P  Y88b d88P  Y88b 8888b   d8888
-888                                     888    888 Y88b.      88888b.d88888
-888      888 88888b.  888  888 888  888 888          Y888b.   888Y88888P888
-888      888 888  88b 888  888  Y8bd8P  888  88888      Y88b. 888 Y888P 888
-888      888 888  888 888  888   X88K   888    888        888 888  Y8P  888
-888      888 888  888 Y88b 88Y .d8pq8b. Y88b  d88P Y88b  d88P 888   *   888
-LinuxGSM 888 888  888  Y8888Y  888  888   Y2012P88   Y8888P   888       888
-
-=================================
-LinuxGSM_
-by Daniel Gibbs
-Version: v24.3.2
-Game: Project Zomboid
-Website: https://linuxgsm.com
-Contributors: https://linuxgsm.com/contrib
-Sponsor: https://linuxgsm.com/sponsor
-=================================
-
-Server Directory
-=================================
-Warning! A server is already installed here.
-/home/pzserver
-Continue? [Y/n] Y
-
-Creating Log Directories
-=================================
-installing log dir: /home/pzserver/log...OK
-installing LinuxGSM log dir: /home/pzserver/log/script...OK
-creating LinuxGSM log: /home/pzserver/log/script/pzserver-script.log...OK
-installing console log dir: /home/pzserver/log/console...OK
-creating console log: /home/pzserver/log/console/pzserver-console.log...OK
-creating symlink to game log dir: /home/pzserver/log/server -> /home/pzserver/Zomboid/Logs...OK
-
-Checking Project Zomboid Dependencies
-=================================
-bc
-binutils
-bsdmainutils
-bzip2
-ca-certificates
-cpio
-curl
-distro-info
-file
-gzip
-hostname
-jq
-lib32gcc-s1
-lib32stdc++6
-libsdl2-2.0-0:i386
-netcat
-openjdk version "11.0.25" 2024-10-15
-pigz
-python3
-rng-tools5
-steamcmd
-tar
-tmux
-unzip
-util-linux
-uuid-runtime
-wget
-xz-utils
-Information! Required dependencies already installed.
-fetching GitHub install_steamcmd.sh...OK
+Skip! Required dependencies already installed.
+fetching GitHub [ install_steamcmd.sh ] ... OK
 
 Installing SteamCMD
 =================================
-fetching GitHub check_steamcmd.sh...OK
-fetching GitHub core_steamcmd.sh...OK
-########################################################################################################################### 100.0%
-OK
-extracting steamcmd_linux.tar.gz...OK
-fetching GitHub install_server_files.sh...OK
+fetching GitHub [ check_steamcmd.sh ] ... OK
+fetching GitHub [ core_steamcmd.sh ] ... OK
+install SteamCMD ... SKIP
+fetching GitHub [ install_server_files.sh ] ... OK
 
 Installing Project Zomboid Server
 =================================
-fetching GitHub update_steamcmd.sh...OK
+fetching GitHub [ update_steamcmd.sh ] ... OK
 [ START ] Installing pzserver: SteamCMD
 Redirecting stderr to '/home/pzserver/.local/share/Steam/logs/stderr.txt'
 ILocalize::AddFile() failed to load file "public/steambootstrapper_english.txt".
 [  0%] Checking for available update...
-[----] Downloading update (0 of 48188 KB)...
-[  0%] Downloading update (0 of 48188 KB)...
-[  0%] Downloading update (2774 of 48188 KB)...
-[  5%] Downloading update (5674 of 48188 KB)...
-[ 11%] Downloading update (7518 of 48188 KB)...
-[ 15%] Downloading update (9206 of 48188 KB)...
-[ 19%] Downloading update (10915 of 48188 KB)...
-[ 22%] Downloading update (12796 of 48188 KB)...
-[ 26%] Downloading update (14490 of 48188 KB)...
-[ 30%] Downloading update (16180 of 48188 KB)...
-[ 33%] Downloading update (17887 of 48188 KB)...
-[ 37%] Downloading update (19575 of 48188 KB)...
-[ 40%] Downloading update (21438 of 48188 KB)...
-[ 44%] Downloading update (23115 of 48188 KB)...
-[ 47%] Downloading update (24797 of 48188 KB)...
-[ 51%] Downloading update (26494 of 48188 KB)...
-[ 54%] Downloading update (28189 of 48188 KB)...
-[ 58%] Downloading update (30053 of 48188 KB)...
-[ 62%] Downloading update (31738 of 48188 KB)...
-[ 65%] Downloading update (33433 of 48188 KB)...
-[ 69%] Downloading update (35114 of 48188 KB)...
-[ 72%] Downloading update (36782 of 48188 KB)...
-[ 76%] Downloading update (38613 of 48188 KB)...
-[ 80%] Downloading update (40317 of 48188 KB)...
-[ 83%] Downloading update (40986 of 48188 KB)...
-[ 85%] Downloading update (41955 of 48188 KB)...
-[ 87%] Downloading update (42793 of 48188 KB)...
-[ 88%] Downloading update (43639 of 48188 KB)...
-[ 90%] Downloading update (44486 of 48188 KB)...
-[ 92%] Downloading update (45432 of 48188 KB)...
-[ 94%] Downloading update (46276 of 48188 KB)...
-[ 96%] Downloading update (47116 of 48188 KB)...
-[ 97%] Downloading update (47953 of 48188 KB)...
-[ 99%] Downloading update (48188 of 48188 KB)...
+[----] Downloading update (0 of 49503 KB)...
+[  0%] Downloading update (0 of 49503 KB)...
+[  0%] Downloading update (5489 of 49503 KB)...
+[ 11%] Downloading update (9236 of 49503 KB)...
+[ 18%] Downloading update (12539 of 49503 KB)...
+[ 25%] Downloading update (15965 of 49503 KB)...
+[ 32%] Downloading update (19478 of 49503 KB)...
+[ 39%] Downloading update (22931 of 49503 KB)...
+[ 46%] Downloading update (26310 of 49503 KB)...
+[ 53%] Downloading update (29733 of 49503 KB)...
+[ 60%] Downloading update (33113 of 49503 KB)...
+[ 66%] Downloading update (36549 of 49503 KB)...
+[ 73%] Downloading update (40179 of 49503 KB)...
+[ 81%] Downloading update (43293 of 49503 KB)...
+[ 87%] Downloading update (45191 of 49503 KB)...
+[ 91%] Downloading update (46888 of 49503 KB)...
+[ 94%] Downloading update (48616 of 49503 KB)...
+[ 98%] Downloading update (49503 of 49503 KB)...
 [100%] Download Complete.
 [----] Applying update...
 [----] Extracting package...
 [----] Installing update...
 [----] Cleaning up...
 [----] Update complete, launching...
-CWorkThreadPool::~CWorkThreadPool: work processing queue not empty: 6 items discarded.
 Redirecting stderr to '/home/pzserver/.local/share/Steam/logs/stderr.txt'
 Logging directory: '/home/pzserver/.local/share/Steam/logs'
 [  0%] Checking for available updates...
@@ -379,334 +287,142 @@ Logging directory: '/home/pzserver/.local/share/Steam/logs'
 [----] Installing update...
 [----] Cleaning up...
 [----] Update complete, launching Steamcmd...
-UpdateUI: skip show logosteamcmd.sh[11725]: Restarting steamcmd by request...
+UpdateUI: skip show logo
+steamcmd.sh[11296]: Restarting steamcmd by request...
 Redirecting stderr to '/home/pzserver/.local/share/Steam/logs/stderr.txt'
 Logging directory: '/home/pzserver/.local/share/Steam/logs'
 [  0%] Checking for available updates...
 [----] Verifying installation...
-UpdateUI: skip show logoSteam Console Client (c) Valve Corporation - version 1731433425
+UpdateUI: skip show logo
+Steam Console Client (c) Valve Corporation - version 1741637596
 -- type 'quit' to exit --
-Loading Steam API...IPC function call IClientUtils::GetSteamRealm took too long: 279 msec
+Loading Steam API...IPC function call IClientUtils::GetSteamRealm took too long: 247 msec
 OK
 
 Connecting anonymously to Steam Public...OK
 Waiting for client config...OK
 Waiting for user info...OK
  Update state (0x3) reconfiguring, progress: 0.00 (0 / 0)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 93 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 91 msec
  Update state (0x3) reconfiguring, progress: 0.00 (0 / 0)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 169 msec
-IPC function call IClientAppManager::GetUpdateInfo took too long: 84 msec
- Update state (0x5) verifying install, progress: 50.58 (2684906872 / 5307884988)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 83 msec
- Update state (0x11) preallocating, progress: 2.12 (112332504 / 5307884988)
- Update state (0x11) preallocating, progress: 25.50 (1353596419 / 5307884988)
- Update state (0x61) downloading, progress: 0.74 (39204696 / 5307884988)
- Update state (0x61) downloading, progress: 1.46 (77333860 / 5307884988)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 51 msec
- Update state (0x61) downloading, progress: 1.55 (82140819 / 5307884988)
- Update state (0x61) downloading, progress: 1.62 (85771494 / 5307884988)
- Update state (0x61) downloading, progress: 1.70 (90187060 / 5307884988)
- Update state (0x61) downloading, progress: 1.73 (91732282 / 5307884988)
- Update state (0x61) downloading, progress: 1.78 (94288159 / 5307884988)
- Update state (0x61) downloading, progress: 1.78 (94466945 / 5307884988)
- Update state (0x61) downloading, progress: 1.79 (94821532 / 5307884988)
- Update state (0x61) downloading, progress: 1.81 (96319007 / 5307884988)
- Update state (0x61) downloading, progress: 1.86 (98853382 / 5307884988)
- Update state (0x61) downloading, progress: 1.87 (99495578 / 5307884988)
- Update state (0x61) downloading, progress: 1.88 (99765772 / 5307884988)
- Update state (0x61) downloading, progress: 1.89 (100579071 / 5307884988)
- Update state (0x61) downloading, progress: 1.90 (100976224 / 5307884988)
- Update state (0x61) downloading, progress: 1.91 (101408813 / 5307884988)
- Update state (0x61) downloading, progress: 1.92 (101867648 / 5307884988)
- Update state (0x61) downloading, progress: 1.92 (102113221 / 5307884988)
- Update state (0x61) downloading, progress: 1.93 (102437135 / 5307884988)
- Update state (0x61) downloading, progress: 1.93 (102561425 / 5307884988)
- Update state (0x61) downloading, progress: 1.94 (102861888 / 5307884988)
- Update state (0x61) downloading, progress: 1.96 (103861910 / 5307884988)
- Update state (0x61) downloading, progress: 2.15 (113977056 / 5307884988)
- Update state (0x61) downloading, progress: 2.30 (122020293 / 5307884988)
- Update state (0x61) downloading, progress: 2.66 (141041621 / 5307884988)
- Update state (0x61) downloading, progress: 2.96 (157138237 / 5307884988)
- Update state (0x61) downloading, progress: 3.17 (168495337 / 5307884988)
- Update state (0x61) downloading, progress: 3.33 (176978583 / 5307884988)
- Update state (0x61) downloading, progress: 3.64 (193033106 / 5307884988)
- Update state (0x61) downloading, progress: 3.80 (201657624 / 5307884988)
- Update state (0x61) downloading, progress: 3.89 (206724236 / 5307884988)
- Update state (0x61) downloading, progress: 4.11 (217914090 / 5307884988)
- Update state (0x61) downloading, progress: 4.51 (239349011 / 5307884988)
- Update state (0x61) downloading, progress: 4.69 (249136365 / 5307884988)
- Update state (0x61) downloading, progress: 4.72 (250335724 / 5307884988)
- Update state (0x61) downloading, progress: 4.72 (250416525 / 5307884988)
- Update state (0x61) downloading, progress: 4.72 (250504436 / 5307884988)
- Update state (0x61) downloading, progress: 4.72 (250581870 / 5307884988)
- Update state (0x61) downloading, progress: 4.72 (250662393 / 5307884988)
- Update state (0x61) downloading, progress: 4.73 (250809980 / 5307884988)
- Update state (0x61) downloading, progress: 4.90 (259988392 / 5307884988)
- Update state (0x61) downloading, progress: 5.13 (272166963 / 5307884988)
- Update state (0x61) downloading, progress: 5.35 (283807735 / 5307884988)
- Update state (0x61) downloading, progress: 5.57 (295557039 / 5307884988)
- Update state (0x61) downloading, progress: 6.04 (320376616 / 5307884988)
- Update state (0x61) downloading, progress: 6.45 (342556873 / 5307884988)
- Update state (0x61) downloading, progress: 6.69 (355259930 / 5307884988)
- Update state (0x61) downloading, progress: 7.11 (377541892 / 5307884988)
- Update state (0x61) downloading, progress: 7.66 (406651867 / 5307884988)
- Update state (0x61) downloading, progress: 7.98 (423678865 / 5307884988)
- Update state (0x61) downloading, progress: 8.15 (432553087 / 5307884988)
- Update state (0x61) downloading, progress: 8.21 (435600743 / 5307884988)
- Update state (0x61) downloading, progress: 8.31 (441175215 / 5307884988)
- Update state (0x61) downloading, progress: 8.57 (454880940 / 5307884988)
- Update state (0x61) downloading, progress: 8.58 (455485878 / 5307884988)
- Update state (0x61) downloading, progress: 8.63 (457977005 / 5307884988)
- Update state (0x61) downloading, progress: 8.65 (459174205 / 5307884988)
- Update state (0x61) downloading, progress: 8.68 (460588246 / 5307884988)
- Update state (0x61) downloading, progress: 8.74 (463879713 / 5307884988)
- Update state (0x61) downloading, progress: 8.80 (467275193 / 5307884988)
- Update state (0x61) downloading, progress: 8.81 (467679785 / 5307884988)
- Update state (0x61) downloading, progress: 8.82 (468155163 / 5307884988)
- Update state (0x61) downloading, progress: 8.83 (468437726 / 5307884988)
- Update state (0x61) downloading, progress: 8.90 (472452427 / 5307884988)
- Update state (0x61) downloading, progress: 8.95 (475206679 / 5307884988)
- Update state (0x61) downloading, progress: 8.97 (475895354 / 5307884988)
- Update state (0x61) downloading, progress: 9.09 (482420807 / 5307884988)
- Update state (0x61) downloading, progress: 9.12 (483956535 / 5307884988)
- Update state (0x61) downloading, progress: 9.15 (485411434 / 5307884988)
- Update state (0x61) downloading, progress: 9.17 (486547440 / 5307884988)
- Update state (0x61) downloading, progress: 9.18 (487186072 / 5307884988)
- Update state (0x61) downloading, progress: 9.18 (487284086 / 5307884988)
- Update state (0x61) downloading, progress: 9.19 (487965971 / 5307884988)
- Update state (0x61) downloading, progress: 9.34 (495976413 / 5307884988)
- Update state (0x61) downloading, progress: 9.90 (525256481 / 5307884988)
- Update state (0x61) downloading, progress: 11.21 (595265239 / 5307884988)
- Update state (0x61) downloading, progress: 12.16 (645315521 / 5307884988)
- Update state (0x61) downloading, progress: 13.60 (722104365 / 5307884988)
- Update state (0x61) downloading, progress: 16.65 (883796694 / 5307884988)
- Update state (0x61) downloading, progress: 19.68 (1044585899 / 5307884988)
- Update state (0x61) downloading, progress: 23.13 (1227784259 / 5307884988)
- Update state (0x61) downloading, progress: 26.09 (1384958141 / 5307884988)
- Update state (0x61) downloading, progress: 28.18 (1495637091 / 5307884988)
- Update state (0x61) downloading, progress: 28.49 (1512347711 / 5307884988)
- Update state (0x61) downloading, progress: 28.63 (1519480764 / 5307884988)
- Update state (0x61) downloading, progress: 28.91 (1534625765 / 5307884988)
- Update state (0x61) downloading, progress: 29.67 (1574683202 / 5307884988)
- Update state (0x61) downloading, progress: 30.39 (1613134007 / 5307884988)
- Update state (0x61) downloading, progress: 30.60 (1624039713 / 5307884988)
- Update state (0x61) downloading, progress: 30.60 (1624475217 / 5307884988)
- Update state (0x61) downloading, progress: 30.67 (1627851228 / 5307884988)
- Update state (0x61) downloading, progress: 30.67 (1627936765 / 5307884988)
- Update state (0x61) downloading, progress: 30.68 (1628415128 / 5307884988)
- Update state (0x61) downloading, progress: 30.69 (1628763559 / 5307884988)
- Update state (0x61) downloading, progress: 30.71 (1630113979 / 5307884988)
- Update state (0x61) downloading, progress: 30.75 (1632096041 / 5307884988)
- Update state (0x61) downloading, progress: 30.87 (1638669110 / 5307884988)
- Update state (0x61) downloading, progress: 30.98 (1644559264 / 5307884988)
- Update state (0x61) downloading, progress: 31.01 (1646135041 / 5307884988)
- Update state (0x61) downloading, progress: 31.02 (1646261491 / 5307884988)
- Update state (0x61) downloading, progress: 31.02 (1646391293 / 5307884988)
- Update state (0x61) downloading, progress: 31.04 (1647459676 / 5307884988)
- Update state (0x61) downloading, progress: 31.04 (1647519199 / 5307884988)
- Update state (0x61) downloading, progress: 31.04 (1647757990 / 5307884988)
- Update state (0x61) downloading, progress: 31.06 (1648422237 / 5307884988)
- Update state (0x61) downloading, progress: 31.06 (1648619665 / 5307884988)
- Update state (0x61) downloading, progress: 31.09 (1650444124 / 5307884988)
- Update state (0x61) downloading, progress: 31.10 (1650684778 / 5307884988)
- Update state (0x61) downloading, progress: 31.13 (1652130472 / 5307884988)
- Update state (0x61) downloading, progress: 31.27 (1659888273 / 5307884988)
- Update state (0x61) downloading, progress: 31.27 (1659968221 / 5307884988)
- Update state (0x61) downloading, progress: 31.28 (1660444972 / 5307884988)
- Update state (0x61) downloading, progress: 31.29 (1660700400 / 5307884988)
- Update state (0x61) downloading, progress: 31.29 (1660878386 / 5307884988)
- Update state (0x61) downloading, progress: 31.31 (1661787981 / 5307884988)
- Update state (0x61) downloading, progress: 31.34 (1663261992 / 5307884988)
- Update state (0x61) downloading, progress: 31.35 (1664013305 / 5307884988)
- Update state (0x61) downloading, progress: 31.44 (1668856716 / 5307884988)
- Update state (0x61) downloading, progress: 31.53 (1673438097 / 5307884988)
- Update state (0x61) downloading, progress: 32.71 (1736139392 / 5307884988)
- Update state (0x61) downloading, progress: 33.96 (1802474403 / 5307884988)
- Update state (0x61) downloading, progress: 34.97 (1856340749 / 5307884988)
- Update state (0x61) downloading, progress: 37.04 (1966004646 / 5307884988)
- Update state (0x61) downloading, progress: 38.12 (2023597620 / 5307884988)
- Update state (0x61) downloading, progress: 38.96 (2067907700 / 5307884988)
- Update state (0x61) downloading, progress: 40.07 (2126614583 / 5307884988)
- Update state (0x61) downloading, progress: 40.67 (2158500194 / 5307884988)
- Update state (0x61) downloading, progress: 41.16 (2184769721 / 5307884988)
- Update state (0x61) downloading, progress: 42.07 (2233211526 / 5307884988)
- Update state (0x61) downloading, progress: 42.66 (2264564077 / 5307884988)
- Update state (0x61) downloading, progress: 43.58 (2313367081 / 5307884988)
- Update state (0x61) downloading, progress: 44.98 (2387261511 / 5307884988)
- Update state (0x61) downloading, progress: 45.99 (2441221559 / 5307884988)
- Update state (0x61) downloading, progress: 46.66 (2476591609 / 5307884988)
- Update state (0x61) downloading, progress: 47.45 (2518625182 / 5307884988)
- Update state (0x61) downloading, progress: 48.68 (2583829438 / 5307884988)
- Update state (0x61) downloading, progress: 49.58 (2631452646 / 5307884988)
- Update state (0x61) downloading, progress: 50.42 (2676249978 / 5307884988)
- Update state (0x61) downloading, progress: 51.48 (2732361523 / 5307884988)
- Update state (0x61) downloading, progress: 53.13 (2819835275 / 5307884988)
- Update state (0x61) downloading, progress: 54.08 (2870691254 / 5307884988)
- Update state (0x61) downloading, progress: 54.53 (2894180012 / 5307884988)
- Update state (0x61) downloading, progress: 54.83 (2910425726 / 5307884988)
- Update state (0x61) downloading, progress: 55.05 (2922061959 / 5307884988)
- Update state (0x61) downloading, progress: 55.55 (2948325133 / 5307884988)
- Update state (0x61) downloading, progress: 56.03 (2974054563 / 5307884988)
- Update state (0x61) downloading, progress: 56.36 (2991553711 / 5307884988)
- Update state (0x61) downloading, progress: 56.55 (3001799594 / 5307884988)
- Update state (0x61) downloading, progress: 57.21 (3036867073 / 5307884988)
- Update state (0x61) downloading, progress: 58.11 (3084326538 / 5307884988)
- Update state (0x61) downloading, progress: 58.31 (3094769197 / 5307884988)
- Update state (0x61) downloading, progress: 58.48 (3103946153 / 5307884988)
- Update state (0x61) downloading, progress: 58.79 (3120762356 / 5307884988)
- Update state (0x61) downloading, progress: 59.33 (3149217129 / 5307884988)
- Update state (0x61) downloading, progress: 59.69 (3168448985 / 5307884988)
- Update state (0x61) downloading, progress: 59.90 (3179685621 / 5307884988)
- Update state (0x61) downloading, progress: 60.12 (3190946382 / 5307884988)
- Update state (0x61) downloading, progress: 60.31 (3200951732 / 5307884988)
- Update state (0x61) downloading, progress: 60.41 (3206469248 / 5307884988)
- Update state (0x61) downloading, progress: 60.63 (3218295260 / 5307884988)
- Update state (0x61) downloading, progress: 60.77 (3225708675 / 5307884988)
- Update state (0x61) downloading, progress: 61.02 (3238824972 / 5307884988)
- Update state (0x61) downloading, progress: 61.21 (3248771578 / 5307884988)
- Update state (0x61) downloading, progress: 61.38 (3258100777 / 5307884988)
- Update state (0x61) downloading, progress: 61.75 (3277828234 / 5307884988)
- Update state (0x61) downloading, progress: 61.97 (3289182282 / 5307884988)
- Update state (0x61) downloading, progress: 62.33 (3308598904 / 5307884988)
- Update state (0x61) downloading, progress: 62.59 (3322331334 / 5307884988)
- Update state (0x61) downloading, progress: 62.70 (3328230868 / 5307884988)
- Update state (0x61) downloading, progress: 62.89 (3338167672 / 5307884988)
- Update state (0x61) downloading, progress: 63.13 (3350753523 / 5307884988)
- Update state (0x61) downloading, progress: 63.40 (3365428420 / 5307884988)
- Update state (0x61) downloading, progress: 63.54 (3372465505 / 5307884988)
- Update state (0x61) downloading, progress: 63.71 (3381457858 / 5307884988)
- Update state (0x61) downloading, progress: 63.95 (3394209249 / 5307884988)
- Update state (0x61) downloading, progress: 63.98 (3395758577 / 5307884988)
- Update state (0x61) downloading, progress: 66.62 (3536368431 / 5307884988)
- Update state (0x61) downloading, progress: 67.41 (3578302290 / 5307884988)
- Update state (0x61) downloading, progress: 68.49 (3635407884 / 5307884988)
- Update state (0x61) downloading, progress: 71.33 (3786077873 / 5307884988)
- Update state (0x61) downloading, progress: 72.39 (3842434869 / 5307884988)
- Update state (0x61) downloading, progress: 73.72 (3913123321 / 5307884988)
- Update state (0x61) downloading, progress: 74.50 (3954258979 / 5307884988)
- Update state (0x61) downloading, progress: 75.01 (3981437414 / 5307884988)
- Update state (0x61) downloading, progress: 75.21 (3992024535 / 5307884988)
- Update state (0x61) downloading, progress: 75.94 (4030805229 / 5307884988)
- Update state (0x61) downloading, progress: 76.91 (4082495174 / 5307884988)
- Update state (0x61) downloading, progress: 77.55 (4116026399 / 5307884988)
- Update state (0x61) downloading, progress: 78.05 (4142762416 / 5307884988)
- Update state (0x61) downloading, progress: 78.29 (4155797120 / 5307884988)
- Update state (0x61) downloading, progress: 78.63 (4173386577 / 5307884988)
- Update state (0x61) downloading, progress: 79.06 (4196359069 / 5307884988)
- Update state (0x61) downloading, progress: 79.21 (4204202038 / 5307884988)
- Update state (0x61) downloading, progress: 79.55 (4222625128 / 5307884988)
- Update state (0x61) downloading, progress: 79.73 (4232141829 / 5307884988)
- Update state (0x61) downloading, progress: 79.82 (4236907949 / 5307884988)
- Update state (0x61) downloading, progress: 82.97 (4404214490 / 5307884988)
- Update state (0x61) downloading, progress: 83.23 (4417695500 / 5307884988)
- Update state (0x61) downloading, progress: 83.38 (4425473750 / 5307884988)
- Update state (0x61) downloading, progress: 83.54 (4434253726 / 5307884988)
- Update state (0x61) downloading, progress: 83.77 (4446297049 / 5307884988)
- Update state (0x61) downloading, progress: 84.57 (4488884751 / 5307884988)
- Update state (0x61) downloading, progress: 84.97 (4510360136 / 5307884988)
- Update state (0x61) downloading, progress: 85.36 (4530833367 / 5307884988)
- Update state (0x61) downloading, progress: 85.77 (4552420024 / 5307884988)
- Update state (0x61) downloading, progress: 86.03 (4566300508 / 5307884988)
- Update state (0x61) downloading, progress: 86.41 (4586432993 / 5307884988)
- Update state (0x61) downloading, progress: 86.79 (4606673863 / 5307884988)
- Update state (0x61) downloading, progress: 87.32 (4635041820 / 5307884988)
- Update state (0x61) downloading, progress: 87.63 (4651447077 / 5307884988)
- Update state (0x61) downloading, progress: 88.21 (4682195921 / 5307884988)
- Update state (0x61) downloading, progress: 88.64 (4704971222 / 5307884988)
- Update state (0x61) downloading, progress: 89.52 (4751814658 / 5307884988)
- Update state (0x61) downloading, progress: 89.93 (4773607950 / 5307884988)
- Update state (0x61) downloading, progress: 90.42 (4799585018 / 5307884988)
- Update state (0x61) downloading, progress: 91.51 (4857494958 / 5307884988)
- Update state (0x61) downloading, progress: 91.86 (4875951579 / 5307884988)
- Update state (0x61) downloading, progress: 92.10 (4888385500 / 5307884988)
- Update state (0x61) downloading, progress: 93.11 (4942208085 / 5307884988)
- Update state (0x61) downloading, progress: 94.23 (5001681835 / 5307884988)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 41 msec
- Update state (0x61) downloading, progress: 95.22 (5054161541 / 5307884988)
- Update state (0x61) downloading, progress: 95.48 (5068025859 / 5307884988)
- Update state (0x61) downloading, progress: 96.26 (5109496265 / 5307884988)
- Update state (0x61) downloading, progress: 96.56 (5125434072 / 5307884988)
- Update state (0x61) downloading, progress: 96.64 (5129306844 / 5307884988)
- Update state (0x61) downloading, progress: 96.67 (5131274175 / 5307884988)
- Update state (0x61) downloading, progress: 96.71 (5133315135 / 5307884988)
- Update state (0x61) downloading, progress: 96.76 (5135858304 / 5307884988)
- Update state (0x61) downloading, progress: 96.77 (5136269830 / 5307884988)
- Update state (0x61) downloading, progress: 96.77 (5136575078 / 5307884988)
- Update state (0x61) downloading, progress: 96.78 (5137005846 / 5307884988)
- Update state (0x61) downloading, progress: 96.78 (5137226246 / 5307884988)
- Update state (0x61) downloading, progress: 96.79 (5137567366 / 5307884988)
- Update state (0x61) downloading, progress: 96.80 (5138018182 / 5307884988)
- Update state (0x61) downloading, progress: 96.81 (5138503190 / 5307884988)
- Update state (0x61) downloading, progress: 96.82 (5138954193 / 5307884988)
-IPC function call IClientAppManager::GetUpdateInfo took too long: 107 msec
- Update state (0x61) downloading, progress: 96.90 (5143291012 / 5307884988)
- Update state (0x61) downloading, progress: 98.65 (5235981671 / 5307884988)
- Update state (0x61) downloading, progress: 99.53 (5282990545 / 5307884988)
- Update state (0x61) downloading, progress: 99.88 (5301733980 / 5307884988)
- Update state (0x61) downloading, progress: 99.98 (5306835413 / 5307884988)
- Update state (0x81) verifying update, progress: 6.55 (347833523 / 5307884988)
- Update state (0x81) verifying update, progress: 14.50 (769753152 / 5307884988)
- Update state (0x81) verifying update, progress: 22.21 (1178997761 / 5307884988)
- Update state (0x81) verifying update, progress: 29.34 (1557493777 / 5307884988)
- Update state (0x81) verifying update, progress: 36.42 (1933182823 / 5307884988)
- Update state (0x101) committing, progress: 8.47 (449638536 / 5307884988)
- Update state (0x101) committing, progress: 16.52 (876792849 / 5307884988)
- Update state (0x101) committing, progress: 16.61 (881609382 / 5307884988)
- Update state (0x101) committing, progress: 16.66 (884458002 / 5307884988)
- Update state (0x101) committing, progress: 34.21 (1815649027 / 5307884988)
- Update state (0x101) committing, progress: 55.24 (2931964767 / 5307884988)
- Update state (0x101) committing, progress: 74.69 (3964434599 / 5307884988)
- Update state (0x101) committing, progress: 91.92 (4878909691 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 128 msec
+ Update state (0x5) verifying install, progress: 24.65 (1308170280 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 76 msec
+ Update state (0x11) preallocating, progress: 2.07 (109940646 / 5307884988)
+ Update state (0x11) preallocating, progress: 16.66 (884338664 / 5307884988)
+ Update state (0x61) downloading, progress: 0.83 (44040192 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 47 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 64 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 43 msec
+ Update state (0x61) downloading, progress: 1.63 (86733224 / 5307884988)
+ Update state (0x61) downloading, progress: 1.84 (97504264 / 5307884988)
+ Update state (0x61) downloading, progress: 1.91 (101219114 / 5307884988)
+ Update state (0x61) downloading, progress: 1.94 (102984140 / 5307884988)
+ Update state (0x61) downloading, progress: 1.99 (105758503 / 5307884988)
+ Update state (0x61) downloading, progress: 2.04 (108420698 / 5307884988)
+ Update state (0x61) downloading, progress: 2.08 (110250391 / 5307884988)
+ Update state (0x61) downloading, progress: 2.09 (111113704 / 5307884988)
+ Update state (0x61) downloading, progress: 2.11 (112017098 / 5307884988)
+ Update state (0x61) downloading, progress: 2.78 (147821487 / 5307884988)
+ Update state (0x61) downloading, progress: 4.11 (218057235 / 5307884988)
+ Update state (0x61) downloading, progress: 6.10 (323946731 / 5307884988)
+ Update state (0x61) downloading, progress: 7.75 (411186276 / 5307884988)
+ Update state (0x61) downloading, progress: 9.46 (501884003 / 5307884988)
+ Update state (0x61) downloading, progress: 11.27 (598090465 / 5307884988)
+ Update state (0x61) downloading, progress: 13.22 (701802748 / 5307884988)
+ Update state (0x61) downloading, progress: 14.96 (794085913 / 5307884988)
+ Update state (0x61) downloading, progress: 15.68 (832084985 / 5307884988)
+ Update state (0x61) downloading, progress: 15.99 (848724653 / 5307884988)
+ Update state (0x61) downloading, progress: 16.36 (868363129 / 5307884988)
+ Update state (0x61) downloading, progress: 16.44 (872669940 / 5307884988)
+ Update state (0x61) downloading, progress: 16.69 (885868134 / 5307884988)
+ Update state (0x61) downloading, progress: 20.27 (1075725156 / 5307884988)
+ Update state (0x61) downloading, progress: 25.40 (1348205467 / 5307884988)
+ Update state (0x61) downloading, progress: 25.90 (1374924274 / 5307884988)
+ Update state (0x61) downloading, progress: 25.92 (1375686078 / 5307884988)
+ Update state (0x61) downloading, progress: 28.07 (1489837458 / 5307884988)
+ Update state (0x61) downloading, progress: 43.38 (2302400614 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 46 msec
+ Update state (0x61) downloading, progress: 54.70 (2903613694 / 5307884988)
+ Update state (0x61) downloading, progress: 64.64 (3431129394 / 5307884988)
+ Update state (0x61) downloading, progress: 72.76 (3861987518 / 5307884988)
+ Update state (0x61) downloading, progress: 80.55 (4275329551 / 5307884988)
+ Update state (0x61) downloading, progress: 87.39 (4638618768 / 5307884988)
+ Update state (0x61) downloading, progress: 91.41 (4851940112 / 5307884988)
+ Update state (0x61) downloading, progress: 96.49 (5121736713 / 5307884988)
+ Update state (0x61) downloading, progress: 96.85 (5140756723 / 5307884988)
+ Update state (0x61) downloading, progress: 96.87 (5141819273 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 203 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 53 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 48 msec
+IPC function call IClientAppManager::GetUpdateInfo took too long: 50 msec
+ Update state (0x61) downloading, progress: 99.57 (5284950569 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 43 msec
+ Update state (0x81) verifying update, progress: 2.21 (117541993 / 5307884988)
+ Update state (0x81) verifying update, progress: 10.42 (553102047 / 5307884988)
+ Update state (0x81) verifying update, progress: 18.35 (974056171 / 5307884988)
+ Update state (0x81) verifying update, progress: 26.22 (1391709733 / 5307884988)
+ Update state (0x81) verifying update, progress: 33.49 (1777372949 / 5307884988)
+ Update state (0x101) committing, progress: 1.89 (100128125 / 5307884988)
+ Update state (0x101) committing, progress: 16.49 (875519387 / 5307884988)
+ Update state (0x101) committing, progress: 16.57 (879390014 / 5307884988)
+ Update state (0x101) committing, progress: 16.65 (883833412 / 5307884988)
+ Update state (0x101) committing, progress: 21.19 (1124814915 / 5307884988)
+ Update state (0x101) committing, progress: 40.62 (2156044403 / 5307884988)
+ Update state (0x101) committing, progress: 61.05 (3240636747 / 5307884988)
+ Update state (0x101) committing, progress: 79.87 (4239525783 / 5307884988)
+ Update state (0x101) committing, progress: 95.25 (5055630342 / 5307884988)
+IPC function call IClientAppManager::GetUpdateInfo took too long: 347 msec
 Success! App '380870' fully installed.
-Complete! Installing pzserver: SteamCMD
+Success! Installing pzserver: SteamCMD
 
-=================================
+
 Was the install successful? [Y/n] Y
-fetching GitHub check_gamedig.sh...OK
-fetching GitHub install_config.sh...OK
-creating /home/pzserver/Zomboid/Server config directory.
-mkdir: created directory '/home/pzserver/Zomboid/Server'
+fetching GitHub [ check_gamedig.sh ] ... OK
+fetching GitHub [ install_config.sh ] ... OK
 
 Downloading Project Zomboid Configs
 =================================
-Downloading default configs from:
+Downloading default configs from: https://github.com/GameServerManagers/Game-Server-Configs
 
-https://github.com/GameServerManagers/Game-Server-Configs
-
-fetching GitHub server.ini...OK
-copying server.ini config file.
-'/home/pzserver/lgsm/config-default/config-game/server.ini' -> '/home/pzserver/Zomboid/Server/pzserver.ini'
-changing hostname.
-changing rcon/admin password.
+fetching GitHub [ server.ini ] ... OK
+copying config file [ /home/pzserver/Zomboid/Server/pzserver.ini ]cp: warning: behavior of -n is non-portable and may change in future; use --update=none instead
+ ... OK
+setting hostname ... OK
+generating admin/rcon password ... OK
 
 Config Locations
 =================================
-Game Server Config File: /home/pzserver/Zomboid/Server/pzserver.ini
-LinuxGSM Config: /home/pzserver/lgsm/config-lgsm/pzserver
-Documentation: https://docs.linuxgsm.com/configuration/game-server-config
-fetching GitHub fix.sh...OK
-fetching GitHub install_stats.sh...OK
+Project Zomboid config file: /home/pzserver/Zomboid/Server/pzserver.ini
+LinuxGSM config: /home/pzserver/lgsm/config-lgsm/pzserver
+Config documentation: https://docs.linuxgsm.com/configuration
+fetching GitHub [ fix.sh ] ... OK
+fetching GitHub [ install_stats.sh ] ... OK
 
 LinuxGSM Stats
 =================================
 Assist LinuxGSM development by sending anonymous stats to developers.
 Collected data is publicly available: https://linuxgsm.com/data/usage
 More info: https://docs.linuxgsm.com/configuration/linuxgsm-stats
+
 The following info will be sent:
 * game server
 * distro
 * game server resource usage
 * server hardware info
-Allow anonymous usage statistics? [Y/n] Y
-Information! Stats setting is now enabled in common.cfg.
-fetching GitHub install_complete.sh...OK
 
-=================================
+Allow anonymous usage statistics? [Y/n] n
+fetching GitHub [ install_complete.sh ] ... OK
+
 Install Complete!
+=================================
 
-To start server type:
+To start the Project Zomboid server type:
 ./pzserver start
+
+
+# Start the server
+###########################################################################
 
 
 pzserver@oci:~$ ./pzserver start
